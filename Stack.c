@@ -3,20 +3,22 @@
 
 #include <stdio.h>
 
+int top = -1, choice = -1, stackLength;
 
-void Push(int value, int stack[], int *top, int maxLength){
-    if(*top < maxLength - 1){
-        stack[++(*top)] = value;
-        printf("Item %d added to the stack! \n", value);
+
+void Push(int value, int stack[]){
+    if(top < stackLength - 1){
+        stack[++(top)] = value;
+        printf("Item %d added in the stack! \n", value);
     }
     else{
         printf("Stack overflow! \n");
     }
 }
 
-int Pop(int stack[], int *top){
-    if(*top >= 0){
-        int value = stack[(*top)--];
+int Pop(int stack[]){
+    if(top >= 0){
+        int value = stack[(top)--];
         printf("Item %d removed from the stack! \n", value);
         return value;
     }
@@ -26,25 +28,44 @@ int Pop(int stack[], int *top){
     }
 }
 
-int main(){
-    int stackLength, choice = -1, top = -1;
+void Show(int stack[]) {
+    if (top == -1) {
+        printf("Stack is empty.\n");
+        return;
+    }
 
+    printf("Your stack items are: [");
+
+    for (int i = 0; i <= top; i++) {
+        printf("%d", stack[i]);
+        if (i < top) {
+            printf(", ");
+        }
+    }
+
+    printf("]\n");
+}
+
+int main(){
     printf("Enter the length of your Stack: ");
     scanf("%d", &stackLength);
     int stack[stackLength];
 
     while(choice != 0){
-        printf("Enter 1 to Push, 2 to Pop, and 0 to Exit: ");
+        printf("\nEnter 1 for Push, \n2 for Pop, \n3 for Show, \nor 0 to Exit: ");
         scanf("%d", &choice);
 
         if(choice == 1){
             int value;
-            printf("Enter the value to push: ");
+            printf("Enter the value you want to push: ");
             scanf("%d", &value);
-            Push(value, stack, &top, stackLength);
+            Push(value, stack);
         }
         else if(choice == 2){
-            Pop(stack, &top);
+            Pop(stack);
+        }
+        else if(choice == 3){
+            Show(stack);
         }
         else if(choice != 0){
             printf("Invalid choice! Please try again. \n");
